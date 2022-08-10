@@ -1,19 +1,3 @@
-// const dotenv = require("dotenv");
-// dotenv.config();
-
-
-
-// module.exports.connect = () => {
-//     const mongoose = require("mongoose");
-//     //const db="mongodb+srv://Optimistic31:Optimistic31@cluster0.5rz1n.mongodb.net/?retryWrites=true&w=majority";
-//     mongoose
-//       .connect(process.env.DB)
-//       .then(() => {
-//         console.log("connected");
-//       })
-//       .catch((error) => console.log(error));
-//   };
-
 const mongoose = require("mongoose");
 
 const { MONGO_URI } = process.env;
