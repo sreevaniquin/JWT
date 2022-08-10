@@ -11,7 +11,7 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.post("/register", async (req, res) => {
+app.post("/register",cors(), async (req, res) => {
   try {
     const { first_name, last_name, email, password } = req.body;
     if (!(email && password && first_name && last_name)) {
@@ -50,9 +50,12 @@ app.post("/register", async (req, res) => {
 
 // });
 
-app.get("/", (req, res) => {
-  res.send("Hello world!");
+
+app.get("/",cors(), async(req, res) => {
+  return res.status(200).json({message:"Hello JWT!!"})
 });
+
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -77,6 +80,8 @@ app.post("/login", async (req, res) => {
     console.log(err);
   }
 });
+
+
 app.post("/welcome",auth,(req,res)=>{
   res.status(200).send("welcome");
 
@@ -86,4 +91,3 @@ const port = process.env.PORT || 6000;
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
-module.export = app;
