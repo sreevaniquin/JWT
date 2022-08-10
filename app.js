@@ -1,6 +1,5 @@
 require("dotenv").config();
 const UserSchema = require("./model/user");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const auth=require("./middleware/auth");
@@ -21,12 +20,11 @@ app.post("/register",cors(), async (req, res) => {
     if (oldUser) {
       return res.status(409).send("user already exists");
     }
-    encryptedPassword = await bcrypt.hash(password, 10);
     const user = await UserSchema.create({
       first_name,
       last_name,
       email: email.toLowerCase(),
-      password: encryptedPassword,
+      password
     });
     console.log(user);
     //create token
@@ -63,9 +61,7 @@ app.post("/login", async (req, res) => {
       return res.status(400).send("email and password are required");
     }
     const user = await UserSchema.findOne({ email });
-    const ps = await bcrypt.compare(password, user.password)
-    console.log(ps);
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user) {
       const token = jwt.sign(
         { user_id: user._id, email },
         process.env.TOKEN_KEY,
